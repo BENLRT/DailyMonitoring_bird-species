@@ -1,0 +1,6 @@
+# Required libraries for the project
+requests
+pandas
+pandas-gbq
+google-auth
+google-auth-oauthlib
