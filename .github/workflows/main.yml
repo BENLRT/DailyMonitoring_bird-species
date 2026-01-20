@@ -1,0 +1,36 @@
+name: Daily API Requests - 04:00 AM
+
+on: 
+  workflow_dispatch:
+  schedule:
+    - cron: "0 4 * * *" 
+
+jobs:
+  run-pipelines:
+    runs-on: ubuntu-latest
+    # refering to environmental variable
+    env:
+      EBIRD_APIKEY: ${{ secrets.EBIRD_APIKEY }}
+      IUCN_APIKEY: ${{ secrets.IUCN_APIKEY }}
+      BQ_SERVICE_ACCOUNT: ${{ secrets.BQ_SERVICE_ACCOUNT }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run eBird pipeline
+        run: python API_Requests/ebird_requests.py
+
+      - name: Run IUCN pipeline
+        run: python API_Requests/iucn_requests.py
+  
