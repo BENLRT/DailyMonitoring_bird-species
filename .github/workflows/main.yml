@@ -12,7 +12,7 @@ jobs:
     env:
       EBIRD_APIKEY: ${{ secrets.EBIRD_APIKEY }}
       IUCN_APIKEY: ${{ secrets.IUCN_APIKEY }}
-      BQ_SERVICE_ACCOUNT: ${{ BQ_SERVICE_ACCOUNT }}
+      BQ_SERVICE_ACCOUNT: ${{ secrets.BQ_SERVICE_ACCOUNT }}
 
     steps:
       - name: Checkout repository
