@@ -6,13 +6,15 @@ from google.oauth2 import service_account
 import time
 import os
 import json
+import base64
 
 # define API key and base URL for eBird API
 api_key = os.environ["EBIRD_APIKEY"]
 headers = {"X-eBirdApiToken": api_key}
 
 # Set up Google BigQuery credentials
-credentials_info = json.loads(os.environ["BQ_SERVICE_ACCOUNT"])
+credentials_b64 = json.loads(os.environ["BQ_SERVICE_ACCOUNT"])
+credentials_info = json.loads(base64.b64decode(credentials_b64).decode("utf-8"))
 credentials = service_account.Credentials.from_service_account_info(credentials_info)
 
 # initialize empty DataFrame to store all results
