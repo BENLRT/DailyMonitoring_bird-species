@@ -9,7 +9,10 @@ import base64
 
 # Set up Google BigQuery credentials
 credentials_b64 = os.environ["BQ_SERVICE_ACCOUNT"]
-credentials_info = json.loads(base64.b64decode(credentials_b64).decode("utf-8"))
+print("DEBUG BQ_SERVICE_ACCOUNT_B64 length:", len(credentials_b64))
+
+credentials_json = base64.b64decode(credentials_b64).decode("utf-8")
+credentials_info = json.loads(credentials_json)
 credentials = service_account.Credentials.from_service_account_info(credentials_info)
 # IUCN Red List API request to get all bird species
 api_key = os.environ["IUCN_APIKEY"]

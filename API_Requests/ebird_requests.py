@@ -14,8 +14,11 @@ headers = {"X-eBirdApiToken": api_key}
 
 # Set up Google BigQuery credentials
 credentials_b64 = os.environ["BQ_SERVICE_ACCOUNT"]
-credentials_info = json.loads(base64.b64decode(credentials_b64).decode("utf-8"))
-credentials = service_account.Credentials.from_service_account_info(credentials_info)
+print("DEBUG BQ_SERVICE_ACCOUNT_B64 length:", len(credentials_b64))
+
+credentials_info = base64.b64decode(credentials_b64).decode("utf-8")
+credentials_json = json.loads(credentials_info)
+credentials = service_account.Credentials.from_service_account_info(credentials_json)
 
 # initialize empty DataFrame to store all results
 df_all=pd.DataFrame()
