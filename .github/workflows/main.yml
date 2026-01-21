@@ -8,6 +8,7 @@ on:
 jobs:
   run-pipelines:
     runs-on: ubuntu-latest
+    environment: call_api
     env:
       EBIRD_APIKEY: ${{ secrets.EBIRD_APIKEY }}
       IUCN_APIKEY: ${{ secrets.IUCN_APIKEY }}
@@ -16,30 +17,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Debug secrets
-        run: |
-          echo "Checking secrets..."
-          if [ -z "$EBIRD_APIKEY" ]; then
-            echo "EBIRD_APIKEY is empty!"
-            exit 1
-          else
-            echo "EBIRD_APIKEY is set"
-          fi
-
-          if [ -z "$IUCN_APIKEY" ]; then
-            echo "IUCN_APIKEY is empty!"
-            exit 1
-          else
-            echo "IUCN_APIKEY is set"
-          fi
-
-          if [ -z "$BQ_SERVICE_ACCOUNT" ]; then
-            echo "BQ_SERVICE_ACCOUNT is empty!"
-            exit 1
-          else
-            echo "BQ_SERVICE_ACCOUNT is set (length: ${#BQ_SERVICE_ACCOUNT})"
-          fi
 
       - name: Set up Python
         uses: actions/setup-python@v5
