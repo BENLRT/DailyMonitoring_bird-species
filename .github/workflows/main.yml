@@ -17,7 +17,14 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
+      - name: Check if BQ_SERVICE_ACCOUNT is set 
+        run: |
+          if [ -z "${{ secrets.BQ_SERVICE_ACCOUNT }}" ]; then
+            echo "BQ_SERVICE_ACCOUNT is not set"
+            exit 1
+          else
+            echo "BQ_SERVICE_ACCOUNT is set"
+          fi
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
