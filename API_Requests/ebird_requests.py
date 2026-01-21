@@ -7,7 +7,7 @@ import time
 import os
 import json
 import base64
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 # define API key and base URL for eBird API
 api_key = os.environ["EBIRD_APIKEY"]
@@ -25,7 +25,7 @@ credentials = service_account.Credentials.from_service_account_info(credentials_
 df_all=pd.DataFrame()
 
 # calculate yesterday's date
-yesterday = datetime.utcnow() - timedelta(days=1)
+yesterday = datetime.now(timezone.utc) - timedelta(days=1)
 y, m, d = yesterday.year, yesterday.month, yesterday.day
 
 # read country codes from CSV file and make API requests for each country
