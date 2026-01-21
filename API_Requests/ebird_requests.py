@@ -7,6 +7,7 @@ import time
 import os
 import json
 import base64
+from datetime import datetime, timedelta
 
 # define API key and base URL for eBird API
 api_key = os.environ["EBIRD_APIKEY"]
@@ -22,6 +23,11 @@ credentials = service_account.Credentials.from_service_account_info(credentials_
 
 # initialize empty DataFrame to store all results
 df_all=pd.DataFrame()
+
+# calculate yesterday's date
+yesterday = datetime.utcnow() - timedelta(days=1)
+y, m, d = yesterday.year, yesterday.month, yesterday.day
+
 # read country codes from CSV file and make API requests for each country
 df_countries = pd.read_csv("API_Requests/countries_iso.csv", delimiter=';',encoding='latin-1')
 for index, row in df_countries.iterrows():
@@ -29,7 +35,7 @@ for index, row in df_countries.iterrows():
     country_code=row["Alpha-2 code"]
     country_name=row["English short name"]
     # construct API URL for the specific country
-    url = f"https://api.ebird.org/v2/data/obs/{country_code}/recent"
+    url = f"https://api.ebird.org/v2/data/obs/{country_code}/historic/{y}/{m}/{d}"
     # make GET request to eBird API    
     response = requests.get(url, headers=headers)
     if response.status_code !=200:
