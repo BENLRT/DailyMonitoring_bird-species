@@ -1,0 +1,44 @@
+version: 2
+
+sources:
+  - name: raw_data
+    database: daily-ebird
+    schema: raw_ebird_daily
+    description: "Raw Data of ebird data collection"
+    tables:
+      - name: raw_ebird
+        description: "Data extracted daily from ebird API and stored in this table. Each line is a bird species observation"
+        columns:
+          - name: countryCode
+            description: "Country code of the observation"
+          - name: countryName
+            description: "Country name of the observation"
+          - name: comName
+            description: "Common name of the species observed"
+          - name: sciName
+            description: "Scientific name of the species observed"
+          - name: obsDt
+            description: "Date of the observation"
+          - name: lat
+            description: "Latitude of the observation"
+          - name: lng
+            description: "Longitude of the observation"
+          - name: howMany
+            description: "The number of bird observed"
+          - name: obsValid
+            description: "It describes if the data are validated or not"
+          - name: obsReviewed
+            description: "It describes if data have been reviewed by human in the ebird database"
+          - name: locationPrivate
+            description: "Boolean if the location is private or not"
+          - name: subId
+            description: "Id of the submission, equivalent to the checklist"
+      - name: raw_iucn
+        description: "Data extracted daily from iucn API. Each line is one bird and its red list category for a year"
+        columns:
+          - name: taxon_scientific_name
+            description: "Scientific name of the species"
+          - name: year_published
+            description: "Year of the defined status"
+          - name: red_list_category_code
+            description: "Red list category for the bird species"

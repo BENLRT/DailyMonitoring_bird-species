@@ -1,0 +1,84 @@
+version: 2
+
+models:
+  - name: stg_raw_data__raw_ebird
+    description: "Staging model for eBird observations"
+
+    columns:
+      - name: sub_id
+        description: "Unique identifier of the submission (checklist)"
+        tests:
+          - not_null
+
+      - name: country_code
+        description: "Country code of the observation"
+        tests:
+          - not_null
+
+      - name: country_name
+        description: "Country name of the observation"
+        tests:
+          - not_null
+
+      - name: common_name
+        description: "Common name of the species observed"
+        tests:
+          - not_null
+
+      - name: scientific_name
+        description: "Scientific name of the species observed"
+        tests:
+          - not_null
+
+      - name: observation_date
+        description: "Date of the observation"
+        tests:
+          - not_null
+
+      - name: observation_time
+        description: "Time of the observation"
+        tests:
+          - not_null
+
+      - name: latitude
+        description: "Latitude of the observation"
+        tests:
+          - not_null
+
+      - name: longitude
+        description: "Longitude of the observation"
+        tests:
+          - not_null
+
+      - name: individual_count
+        description: "Number of individuals observed (default = 1 when missing)"
+        tests:
+          - not_null
+
+      - name: is_validated
+        description: "Whether the observation is validated by eBird"
+
+      - name: is_reviewed
+        description: "Whether the observation has been reviewed by a human"
+
+      - name: is_location_private
+        description: "Whether the observation location is private"
+
+  - name: stg_raw_data__raw_iucn
+    description: "Staging model for iucn status"
+
+    columns:
+      - name: scientific_name
+        description: "Unique identifier of the submission (checklist)"
+        tests:
+          - not_null
+
+      - name: year
+        description: "Year of the status publication"
+        tests:
+          - not_null
+
+      - name: red_list_category_code
+        description: "Red list status of the species"
+        tests:
+          - not_null
