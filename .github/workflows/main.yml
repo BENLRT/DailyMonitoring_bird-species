@@ -1,4 +1,4 @@
-name: Daily API Requests - 04:00 AM
+name: Daily API Requests - 06:00 AM
 
 on: 
   workflow_dispatch:
