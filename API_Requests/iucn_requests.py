@@ -11,9 +11,9 @@ import base64
 credentials_b64 = os.environ["BQ_SERVICE_ACCOUNT"]
 print("DEBUG BQ_SERVICE_ACCOUNT_B64 length:", len(credentials_b64))
 
-credentials_json = base64.b64decode(credentials_b64).decode("utf-8")
-credentials_info = json.loads(credentials_json)
-credentials = service_account.Credentials.from_service_account_info(credentials_info)
+credentials_info = base64.b64decode(credentials_b64).decode("utf-8")
+credentials_json = json.loads(credentials_info)
+credentials = service_account.Credentials.from_service_account_info(credentials_json)
 # IUCN Red List API request to get all bird species
 api_key = os.environ["IUCN_APIKEY"]
 headers = {"accept": "application/json", "Authorization": api_key}
