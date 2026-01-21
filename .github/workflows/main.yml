@@ -3,7 +3,7 @@ name: Daily API Requests - 04:00 AM
 on: 
   workflow_dispatch:
   schedule:
-    - cron: "0 4 * * *" 
+    - cron: "0 6 * * *" 
 
 jobs:
   run-pipelines:

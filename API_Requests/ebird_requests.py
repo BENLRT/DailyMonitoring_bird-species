@@ -15,8 +15,6 @@ headers = {"X-eBirdApiToken": api_key}
 
 # Set up Google BigQuery credentials
 credentials_b64 = os.environ["BQ_SERVICE_ACCOUNT"]
-print("DEBUG BQ_SERVICE_ACCOUNT_B64 length:", len(credentials_b64))
-
 credentials_info = base64.b64decode(credentials_b64).decode("utf-8")
 credentials_json = json.loads(credentials_info)
 credentials = service_account.Credentials.from_service_account_info(credentials_json)
@@ -30,21 +28,34 @@ y, m, d = yesterday.year, yesterday.month, yesterday.day
 
 # read country codes from CSV file and make API requests for each country
 df_countries = pd.read_csv("API_Requests/countries_iso.csv", delimiter=';',encoding='latin-1')
+# iterate over each country in the CSV and make API requests
 for index, row in df_countries.iterrows():
     # extract country code and name from CSV row
     country_code=row["Alpha-2 code"]
     country_name=row["English short name"]
     # construct API URL for the specific country
     url = f"https://api.ebird.org/v2/data/obs/{country_code}/historic/{y}/{m}/{d}"
-    # make GET request to eBird API    
-    response = requests.get(url, headers=headers)
-    if response.status_code !=200:
-        print(f"Error fetching data for {country_name} ({country_code}): {response.status_code}")
-        continue
-    data = response.json()
-    if not data:
-        print(f"No data available for {country_name} ({country_code})")
-        continue
+    # make GET request to eBird API
+    for attempt in range(3):
+        try:
+            response = requests.get(url, headers=headers)
+            if response.status_code ==200:
+                break  # exit loop if request is successful
+            elif response.status_code >= 500:
+                print(f"Server error {response.status_code} for {country_name} ({country_code}), retrying...")
+                time.sleep(5) # wait for 5 seconds before retrying
+            else:
+                print(f"Error {response.status_code} for {country_name} ({country_code}), not retrying.")
+                break  # exit loop for client errors
+        except requests.exceptions.RequestException as e:
+            print(f"Request failed for {country_name} ({country_code}): {e}")
+            continue
+
+        data = response.json()
+        
+        if not data:
+            print(f"No data available for {country_name} ({country_code})")
+            continue
 
     df=pd.json_normalize(response.json())
     df.insert(0, "countryCode", country_code)
@@ -61,4 +72,3 @@ for index, row in df_countries.iterrows():
 
 df_all = df_all.sort_values("obsDt")
 pandas_gbq.to_gbq(df_all, "raw_ebird_daily.raw_ebird", project_id="daily-ebird", if_exists="append", credentials=credentials)
-#print(response.text)
