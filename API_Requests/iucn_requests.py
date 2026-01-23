@@ -44,7 +44,7 @@ while True:
         }
     df = pd.json_normalize(data_dic)
     # keep only relevant columns : scientific name, year of the assessment and the red list category
-    df = df[["taxon_scientific_name", "year_published", "red_list_category_code"]]
+    df = df[["taxon_scientific_name", "year_published", "red_list_category_code", "scopes", "latest"]]
     all_species.append(df)
     page += 1
     time.sleep(0.5)  # To respect API rate limits
