@@ -31,24 +31,21 @@ while True:
         print(f"Error fetching data: {response.status_code}")
         break
     data = response.json()
-    if not data['assessments']:
+    assessments = data.get('assessments', [])
+    if not assessments:
         print("No more data available.")
         break
-    for assessment in data['assessments']:
-        data_dic = {
+    for assessment in assessments:
+        all_species.append( {
             "taxon_scientific_name" : assessment['taxon_scientific_name'], 
             "year_published" : assessment['year_published'], 
             "red_list_category_code" : assessment['red_list_category_code'], 
             "scopes" : assessment['scopes'][0]['description']['en'], 
             "latest" : assessment['latest']
         }
-        df = pd.json_normalize(data_dic)
-        # keep only relevant columns : scientific name, year of the assessment and the red list category
-        df = df[["taxon_scientific_name", "year_published", "red_list_category_code", "scopes", "latest"]]
-        all_species.append(df)
+        )
     page += 1
     time.sleep(0.5)  # To respect API rate limits
 
-df_iucn = pd.concat(all_species, ignore_index=True)
-df_iucn.head()
-pandas_gbq.to_gbq(df_iucn, "raw_ebird_daily.raw_iucn", project_id="daily-ebird", if_exists="replace", credentials=credentials)
+df = pd.DataFrame(all_species)
+pandas_gbq.to_gbq(df, "raw_ebird_daily.raw_iucn", project_id="daily-ebird", if_exists="replace", credentials=credentials)
