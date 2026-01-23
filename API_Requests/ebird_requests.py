@@ -27,12 +27,13 @@ yesterday = datetime.now(timezone.utc) - timedelta(days=1)
 y, m, d = yesterday.year, yesterday.month, yesterday.day
 
 # read country codes from CSV file and make API requests for each country
-df_countries = pd.read_csv("API_Requests/countries_iso.csv", delimiter=';',encoding='latin-1')
+df_countries = pd.read_csv("API_Requests/countries.csv", delimiter=';',encoding='latin-1')
 # iterate over each country in the CSV and make API requests
 for index, row in df_countries.iterrows():
     # extract country code and name from CSV row
-    country_code=row["Alpha-2 code"]
-    country_name=row["English short name"]
+    country_code=row["ISO-alpha2 Code"]
+    country_name=row["Global Name"]
+    region_name = row["Region Name"]
     # construct API URL for the specific country
     url = f"https://api.ebird.org/v2/data/obs/{country_code}/historic/{y}/{m}/{d}"
     # make GET request to eBird API
@@ -60,7 +61,8 @@ for index, row in df_countries.iterrows():
     df=pd.json_normalize(response.json())
     df.insert(0, "countryCode", country_code)
     df.insert(1, "countryName", country_name)
-    cols = ["countryCode","countryName","comName","sciName","obsDt","lat","lng","howMany","obsValid","obsReviewed","locationPrivate","subId"]
+    df.insert(2, "regionName", region_name)
+    cols = ["countryCode","countryName","regionName","comName","sciName","obsDt","lat","lng","howMany","obsValid","obsReviewed","locationPrivate","subId"]
     for col in cols:
         if col not in df.columns:
             df[col] = pd.NA

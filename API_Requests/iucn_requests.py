@@ -34,7 +34,15 @@ while True:
     if not data['assessments']:
         print("No more data available.")
         break
-    df = pd.json_normalize(data['assessments'])
+    for assessment in data['assessments']:
+        data_dic = {
+            "taxon_scientific_name" : assessment['taxon_scientific_name'], 
+            "year_published" : assessment['year_published'], 
+            "red_list_category_code" : assessment['red_list_category_code'], 
+            "scopes" : assessment['scopes'][0]['description']['en'], 
+            "latest" : assessment['latest']
+        }
+    df = pd.json_normalize(data_dic)
     # keep only relevant columns : scientific name, year of the assessment and the red list category
     df = df[["taxon_scientific_name", "year_published", "red_list_category_code"]]
     all_species.append(df)
