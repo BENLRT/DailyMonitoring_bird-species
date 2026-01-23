@@ -64,10 +64,7 @@ models:
       - name: is_location_private
         description: "Whether the observation location is private"
 
-  - name: stg_raw_data__raw_iucn
-    description: "Staging model for iucn status"
-
-  - name: red_list_category_code
-    description: "Red list status of the species"
-    tests:
-      - not_null
+      - name: red_list_category_code
+        description: "Red list status of the species"
+        tests:
+         - not_null
