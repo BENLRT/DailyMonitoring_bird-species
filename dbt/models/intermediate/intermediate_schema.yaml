@@ -1,6 +1,13 @@
 version: 2
 
 models:
+  - name: iucn_pivot
+    description: "As the table "
+    columns: 
+      - name: scientific_name
+      - name: regional_status
+      - name: global_status
+
   - name: intermediate_join_ebird_iucn
     description: "Joining IUCN and ebird table"
 
@@ -16,6 +23,11 @@ models:
           - not_null
 
       - name: country_name
+        description: "Country name of the observation"
+        tests:
+          - not_null
+
+      - name: region_name
         description: "Country name of the observation"
         tests:
           - not_null
@@ -63,8 +75,7 @@ models:
 
       - name: is_location_private
         description: "Whether the observation location is private"
-
-      - name: red_list_category_code
-        description: "Red list status of the species"
-        tests:
-         - not_null
+      - name: global_status
+        description: "World Status"
+      - name: regional_status
+        description: "Regional Status"

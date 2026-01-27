@@ -20,9 +20,12 @@ renamed as (
             WHEN red_list_category_code = 'NR' THEN 'NE'
             WHEN red_list_category_code = 'T' THEN 'NT'
             ELSE red_list_category_code
-        END AS red_list_category_code
+        END AS red_list_category_code,
+        scopes,
+        latest as latest_status
 
     from source
+    WHERE latest = True
 
 )
 
