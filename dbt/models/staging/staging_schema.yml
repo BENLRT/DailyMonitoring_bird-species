@@ -20,6 +20,11 @@ models:
         tests:
           - not_null
 
+      - name: region_name
+        description: "Country region of the observation"
+        tests:
+          - not_null
+
       - name: common_name
         description: "Common name of the species observed"
         tests:
@@ -80,5 +85,13 @@ models:
 
       - name: red_list_category_code
         description: "Red list status of the species"
+        tests:
+          - not_null
+      - name: scopes
+        description: "Regional or global(World) scope"
+        tests:
+          - not_null
+      - name: latest_status
+        description: "Is the row the latest status of the species"
         tests:
           - not_null

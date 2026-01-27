@@ -27,6 +27,7 @@ renamed as (
         subid AS sub_id,
         countrycode AS country_code,
         countryname AS country_name,
+        if(regionname IS NULL AND countrycode = "AQ", "Antartica",regionname) AS region_name,
         comname AS common_name,
         sciname AS scientific_name,
         DATE(obs_datetime) AS observation_date,
