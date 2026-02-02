@@ -5,8 +5,9 @@ models:
     description: "As the table "
     columns: 
       - name: scientific_name
-      - name: regional_status
       - name: global_status
+      - name: europe_status
+      - name: mediterranean_status
 
   - name: intermediate_join_ebird_iucn
     description: "Joining IUCN and ebird table"
