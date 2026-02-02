@@ -27,7 +27,7 @@ yesterday = datetime.now(timezone.utc) - timedelta(days=1)
 y, m, d = yesterday.year, yesterday.month, yesterday.day
 
 # read country codes from CSV file and make API requests for each country
-df_countries = pd.read_csv("API_Requests/countries.csv", delimiter=';',encoding='latin-1')
+df_countries = pd.read_csv("API_Requests/countries.csv", delimiter=';',encoding='utf-8-sig')
 # iterate over each country in the CSV and make API requests
 for index, row in df_countries.iterrows():
     # extract country code and name from CSV row
