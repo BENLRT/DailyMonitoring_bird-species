@@ -32,7 +32,7 @@ df_countries = pd.read_csv("API_Requests/countries.csv", delimiter=';',encoding=
 for index, row in df_countries.iterrows():
     # extract country code and name from CSV row
     country_code=row["ISO-alpha2 Code"]
-    country_name=row["Global Name"]
+    country_name=row["Country or Area"]
     region_name = row["Region Name"]
     # construct API URL for the specific country
     url = f"https://api.ebird.org/v2/data/obs/{country_code}/historic/{y}/{m}/{d}"
