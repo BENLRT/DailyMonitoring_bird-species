@@ -13,6 +13,8 @@ sources:
             description: "Country code of the observation"
           - name: countryName
             description: "Country name of the observation"
+          - name: regionName
+            description: "Region name of the observation"
           - name: comName
             description: "Common name of the species observed"
           - name: sciName
@@ -42,3 +44,7 @@ sources:
             description: "Year of the defined status"
           - name: red_list_category_code
             description: "Red list category for the bird species"
+          - name: scopes
+            description: "Scope of the status Global(World) or Region"
+          - name: latest
+            description: "latest status of the species"
