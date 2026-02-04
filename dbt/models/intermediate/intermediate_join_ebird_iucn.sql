@@ -4,6 +4,7 @@ SELECT
     e.country_name,
     e.region_name,
     e.common_name,
+    e.ebird_scientific_name,
     e.scientific_name,
     e.observation_date,
     e.observation_time,

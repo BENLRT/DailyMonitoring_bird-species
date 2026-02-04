@@ -2,7 +2,7 @@ version: 2
 
 models:
   - name: iucn_pivot
-    description: "As the table "
+    description: "Pivot of the iucn table to keep global status and region status"
     columns: 
       - name: scientific_name
       - name: global_status
@@ -35,6 +35,10 @@ models:
 
       - name: common_name
         description: "Common name of the species observed"
+        tests:
+          - not_null
+      - name: ebird_scientific_name
+        description: "ebird taxonomy name of the species observed"
         tests:
           - not_null
 
