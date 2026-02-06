@@ -105,3 +105,7 @@ sources:
             description: "Entire taxon scientific Name of the species"
           - name: scientific_name
             description: "Result of matching ebird and iucn scientific names"
+          - name: "`order`"
+            description: "order from the Result of matching ebird and iucn scientific names"
+          - name: family
+            description: "family from the Result of matching ebird and iucn scientific names"
