@@ -16,8 +16,12 @@ renamed as (
 
     from source
     --- select species and validated taxonomic status and where the scientifc Name is not written with a x (Ex: name x name)
-    WHERE taxonRank = "SPECIES" AND taxonomicStatus = "ACCEPTED" AND scientificName NOT LIKE '% x %' 
-
+    WHERE taxonRank = "SPECIES" 
+        AND taxonomicStatus = "ACCEPTED" 
+        AND species NOT LIKE '% x %' 
+    --- remove fossil
+        AND family IS NOT NULL
+        AND `order` IS NOT NULL
 )
 
 select * from renamed
