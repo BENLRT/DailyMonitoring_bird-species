@@ -34,6 +34,7 @@ for index, row in df_countries.iterrows():
     country_code=row["ISO-alpha2 Code"]
     country_name=row["Country or Area"]
     region_name = row["Region Name"]
+    data = None
     # construct API URL for the specific country
     url = f"https://api.ebird.org/v2/data/obs/{country_code}/historic/{y}/{m}/{d}"
     # make GET request to eBird API
@@ -41,7 +42,9 @@ for index, row in df_countries.iterrows():
         try:
             response = requests.get(url, headers=headers)
             if response.status_code ==200:
-                break  # exit loop if request is successful
+                data = response.json()
+                break  
+            # exit loop if request is successful
             elif response.status_code >= 500:
                 print(f"Server error {response.status_code} for {country_name} ({country_code}), retrying...")
                 time.sleep(5) # wait for 5 seconds before retrying
@@ -52,13 +55,17 @@ for index, row in df_countries.iterrows():
             print(f"Request failed for {country_name} ({country_code}): {e}")
             continue
 
-        data = response.json()
-        
-        if not data:
-            print(f"No data available for {country_name} ({country_code})")
-            continue
+    if not data:
+           print(f"No data available for {country_name} ({country_code})")
+           continue
 
-    df=pd.json_normalize(response.json())
+
+
+
+    df=pd.json_normalize(data)
+    if df.empty:
+        print(f"Empty dataframe for {country_name} ({country_code})")
+        continue
     df.insert(0, "countryCode", country_code)
     df.insert(1, "countryName", country_name)
     df.insert(2, "regionName", region_name)
@@ -70,7 +77,7 @@ for index, row in df_countries.iterrows():
     df = df[cols]
     # append the DataFrame for the current country to the overall DataFrame
     df_all=pd.concat([df_all,df], ignore_index=True)
-    time.sleep(0.5) # To respect API rate limits
+    time.sleep(1) # To respect API rate limits
 
 df_all = df_all.sort_values("obsDt")
 pandas_gbq.to_gbq(df_all, "raw_ebird_daily.raw_ebird", project_id="daily-ebird", if_exists="append", credentials=credentials)
