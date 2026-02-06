@@ -30,7 +30,7 @@ models:
         tests:
           - not_null
 
-      - name: scientific_name
+      - name: ebird_scientific_name
         description: "Scientific name of the species observed"
         tests:
           - not_null
@@ -95,3 +95,46 @@ models:
         description: "Is the row the latest status of the species"
         tests:
           - not_null
+
+  - name: stg_raw_data__raw_gbif_taxonomy
+    description: "Staging model for gbif taxonomy. List of bird species"
+
+    columns:
+      - name: "`order`"
+        description: "Name of the order"
+        tests:
+          - not_null
+
+      - name: family
+        description: "Family of the taxonomy"
+        tests:
+          - not_null
+
+      - name: genus
+        description: "Genus of the taxonomy"
+        tests:
+          - not_null
+      - name: scientific_name
+        description: "Name of the species"
+        tests:
+          - not_null
+
+  - name: stg_raw_data__raw_scientificname_matrix
+    description: "Staging model for gbif taxonomy. List of bird species"
+    columns:
+      - name: english_name
+        description: "English name of birds"
+        tests:
+          - not_null
+      - name: ebird_scientific_name
+        description: "Entire taxon scientific Name of the species"
+        tests:
+          - not_null
+      - name: scientific_name
+        description: "Result of matching ebird and iucn scientific names" 
+        tests:
+          - not_null   
+      - name: "`order`"
+        description: "order from the Result of matching ebird and iucn scientific names"
+      - name: family
+        description: "family from the Result of matching ebird and iucn scientific names"

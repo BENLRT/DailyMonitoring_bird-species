@@ -29,7 +29,7 @@ renamed as (
         countryname AS country_name,
         if(regionname IS NULL AND countrycode = "AQ", "Antartica",regionname) AS region_name,
         comname AS common_name,
-        sciname AS scientific_name,
+        sciname AS ebird_scientific_name,
         DATE(obs_datetime) AS observation_date,
         TIME(obs_datetime) AS observation_time,
         lat AS latitude,

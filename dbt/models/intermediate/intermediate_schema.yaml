@@ -1,16 +1,18 @@
 version: 2
 
 models:
+# /intermediate/prepare_join
   - name: iucn_pivot
-    description: "As the table "
+    description: "Pivot of the iucn table to keep global status and region status"
     columns: 
       - name: scientific_name
-      - name: regional_status
       - name: global_status
+      - name: europe_status
+      - name: mediterranean_status
 
-  - name: intermediate_join_ebird_iucn
-    description: "Joining IUCN and ebird table"
-
+# /intermediate/prepare_join
+  - name: intermediate_join_matrix_gbiftaxonomy_ebird
+    description: "Joining matrix and ebird table to normalize scientific names and add genus and family"
     columns:
       - name: sub_id
         description: "Unique identifier of the submission (checklist)"
@@ -29,6 +31,19 @@ models:
 
       - name: region_name
         description: "Country name of the observation"
+        tests:
+          - not_null
+
+      - name: "`order`"
+        description: "order name of the species observed"
+        tests:
+          - not_null
+      - name: family
+        description: "Family of the species observed"
+        tests:
+          - not_null
+      - name: genus
+        description: "Genus the species observed"
         tests:
           - not_null
 
@@ -75,7 +90,90 @@ models:
 
       - name: is_location_private
         description: "Whether the observation location is private"
-      - name: global_status
+
+
+# /intermediate
+  - name: intermediate_join_ebird_iucn
+    description: "Joining IUCN and ebird table"
+
+    columns:
+      - name: sub_id
+        description: "Unique identifier of the submission (checklist)"
+        tests:
+          - not_null
+
+      - name: country_code
+        description: "Country code of the observation"
+        tests:
+          - not_null
+
+      - name: country_name
+        description: "Country name of the observation"
+        tests:
+          - not_null
+
+      - name: region_name
+        description: "Country name of the observation"
+        tests:
+          - not_null
+
+      - name: "`order`"
+        description: "order name of the species observed"
+        tests:
+          - not_null
+      - name: family
+        description: "Family of the species observed"
+        tests:
+          - not_null
+      - name: genus
+        description: "Genus the species observed"
+        tests:
+          - not_null
+
+      - name: common_name
+        description: "Common name of the species observed"
+        tests:
+          - not_null
+
+      - name: scientific_name
+        description: "Scientific name of the species observed"
+        tests:
+          - not_null
+
+      - name: observation_date
+        description: "Date of the observation"
+        tests:
+          - not_null
+
+      - name: observation_time
+        description: "Time of the observation"
+        tests:
+          - not_null
+
+      - name: latitude
+        description: "Latitude of the observation"
+        tests:
+          - not_null
+
+      - name: longitude
+        description: "Longitude of the observation"
+        tests:
+          - not_null
+
+      - name: individual_count
+        description: "Number of individuals observed (default = 1 when missing)"
+        tests:
+          - not_null
+
+      - name: is_validated
+        description: "Whether the observation is validated by eBird"
+
+      - name: is_reviewed
+        description: "Whether the observation has been reviewed by a human"
+
+      - name: is_location_private
+        description: "Whether the observation location is private"
+      - name: iucn_global_status
         description: "World Status"
-      - name: regional_status
+      - name: iucn_regional_status
         description: "Regional Status"

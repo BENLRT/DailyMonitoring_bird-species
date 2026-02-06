@@ -48,3 +48,64 @@ sources:
             description: "Scope of the status Global(World) or Region"
           - name: latest
             description: "latest status of the species"
+      - name: raw_gbif_taxonomy
+        description: "Raw data of GBIF occurences database to have species taxonomy, genus family order"
+        columns:
+          - name: taxonKey
+            description: "Key of the species' taxonomy"
+          - name: scientificName
+            description: "Entire taxon scientific Name of the species"
+          - name: acceptedTaxonKey
+            description: "Key of the species' taxonomy, accepted by GBIF"
+          - name: acceptedScientificName
+            description: "Entire taxon scientific Name of the species, accepted by GBIF"
+          - name: numberOfOccurrences
+            description: "Scientific name of the species observed"
+          - name: taxonRank
+            description: "Rank by GBIF (ex: SPECIES, SUBSPECIES, VARIETY)"
+          - name: taxonomicStatus
+            description: "Status of the taxonomy (ex: ACCEPTED, SYNONYM, DOUBTFUL)"
+          - name: kingdom
+            description: "Biological kingdom (Ex: Animalia)"
+          - name: kingdomKey
+            description: "Id of the kingdom"
+          - name: phylum
+            description: "Ex: Chordata"
+          - name: phylumKey
+            description: "ID of phylum"
+          - name: class
+            description: "Class of the species (ex: Aves)"
+          - name: classKey
+            description: "ID of the class"
+          - name: order
+            description: "Taxonomic order (Ex: Passeriformes)"
+          - name: orderKey
+            description: "Id of the order"
+          - name: family
+            description: "Taxonomic family (ex: Corvidae)"
+          - name: familyKey
+            description: "Family id"
+          - name: genus
+            description: "Genus name (ex: Corvus)"
+          - name: genusKey
+            description: "Genus ID"
+          - name: species
+            description: "Name of the species without autor (Ex: Corvus corone)"
+          - name: speciesKey
+            description: "INTEGER. Id of the species"
+          - name: iucnRedListCategory
+            description: "STRING. IUCN Status of the species. Not filled for all species (ex: LC, NT, VU, EN, CR)"
+
+      - name: raw_scientificname_matrix
+        description: "Raw data of matrix between ebird scientific names and iucn scientific names"
+        columns:
+          - name: english_name
+            description: "English name of birds"
+          - name: ebird_scientific_name
+            description: "Entire taxon scientific Name of the species"
+          - name: scientific_name
+            description: "Result of matching ebird and iucn scientific names"
+          - name: "`order`"
+            description: "order from the Result of matching ebird and iucn scientific names"
+          - name: family
+            description: "family from the Result of matching ebird and iucn scientific names"
