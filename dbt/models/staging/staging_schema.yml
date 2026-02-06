@@ -100,7 +100,7 @@ models:
     description: "Staging model for gbif taxonomy. List of bird species"
 
     columns:
-      - name: order
+      - name: "`order`"
         description: "Name of the order"
         tests:
           - not_null
@@ -118,3 +118,19 @@ models:
         description: "Name of the species"
         tests:
           - not_null
+
+  - name: stg_raw_data__raw_gbif_taxonomy
+    description: "Staging model for gbif taxonomy. List of bird species"
+    columns:
+      - name: english_name
+        description: "English name of birds"
+        tests:
+          - not_null
+      - name: ebird_scientific_name
+        description: "Entire taxon scientific Name of the species"
+        tests:
+          - not_null
+      - name: scientific_name
+        description: "Result of matching ebird and iucn scientific names" 
+        tests:
+          - not_null   

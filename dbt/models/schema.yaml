@@ -95,3 +95,13 @@ sources:
             description: "INTEGER. Id of the species"
           - name: iucnRedListCategory
             description: "STRING. IUCN Status of the species. Not filled for all species (ex: LC, NT, VU, EN, CR)"
+
+      - name: raw_scientificname_matrix
+        description: "Raw data of matrix between ebird scientific names and iucn scientific names"
+        columns:
+          - name: english_name
+            description: "English name of birds"
+          - name: ebird_scientific_name
+            description: "Entire taxon scientific Name of the species"
+          - name: scientific_name
+            description: "Result of matching ebird and iucn scientific names"
