@@ -9,10 +9,10 @@ source as (
 renamed as (
 
     select
-        `order`, 
-        family, 
-        genus, 
-        species as scientific_name
+        `order` 
+        ,family 
+        ,genus 
+        ,species as scientific_name
 
     from source
     --- select species and validated taxonomic status and where the scientifc Name is not written with a x (Ex: name x name)
