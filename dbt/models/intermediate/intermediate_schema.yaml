@@ -150,6 +150,11 @@ models:
         tests:
           - not_null
 
+      - name: time_of_day
+        description: "Time of the day : evening,morning,afternoon"
+        tests:
+          - not_null
+
       - name: latitude
         description: "Latitude of the observation"
         tests:
