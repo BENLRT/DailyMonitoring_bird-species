@@ -15,20 +15,21 @@ WITH ebird AS (
         , is_reviewed
         , is_location_private
     FROM {{ ref('stg_raw_data__raw_ebird') }}
-),
+), 
+
 sc_name_matrix AS (
     SELECT 
         ebird_scientific_name
         , scientific_name
-        , order
+        , `order`
         , family
     FROM {{ ref('stg_raw_data__raw_scientificname_matrix') }}
 
-),
+), 
 gbif_taxonomy AS (
     SELECT 
         scientific_name
-        ,order
+        ,`order`
         ,family
         ,genus
     FROM {{ ref('stg_raw_data__raw_gbif_taxonomy') }}
@@ -43,7 +44,7 @@ normalized AS (
         ,scm.`order`
         ,scm.family
         --- if the corresponding iucn scientific name has not been found, keep the ebird scientific name, else keep icun one. (The species can be called differently)
-        ,IF(
+        , IF(
             scm.scientific_name= "Not Exist"
             ,e.ebird_scientific_name
             ,scm.scientific_name

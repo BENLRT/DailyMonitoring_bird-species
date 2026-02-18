@@ -62,23 +62,29 @@ joined AS (
     ON e.scientific_name = i.scientific_name
 )
 SELECT
-    ,sub_id
+    sub_id
     ,country_code
     ,country_name
     ,region_name
     ,`order`
     ,family
     ,genus
-    ,common_name,
-    ,scientific_name,
-    ,observation_date,
-    ,observation_time,
-    ,latitude,
-    ,longitude,
-    ,individual_count,
-    ,is_validated,
-    ,is_reviewed,
-    ,is_location_private,
-    ,IF(iucn_global_status IS NULL, "Missing data", iucn_global_status) AS iucn_global_status,
+    ,common_name
+    ,scientific_name
+    ,observation_date
+    ,observation_time
+    ,CASE
+        WHEN EXTRACT(HOUR FROM observation_time) BETWEEN 5 AND 11 THEN 'Morning'
+        WHEN EXTRACT(HOUR FROM observation_time) BETWEEN 12 AND 16 THEN 'Afternoon'
+        WHEN EXTRACT(HOUR FROM observation_time) BETWEEN 17 AND 20 THEN 'Evening'
+        ELSE "Night"
+    END AS time_of_day
+    ,latitude
+    ,longitude
+    ,individual_count
+    ,is_validated
+    ,is_reviewed
+    ,is_location_private
+    ,IF(iucn_global_status IS NULL, "Missing data", iucn_global_status) AS iucn_global_status
     ,IF(iucn_regional_status IS NULL, "Missing data", iucn_regional_status) AS iucn_regional_status
 FROM joined
