@@ -28,6 +28,8 @@ y, m, d = yesterday.year, yesterday.month, yesterday.day
 
 # read country codes from CSV file and make API requests for each country
 df_countries = pd.read_csv("API_Requests/countries.csv", delimiter=';',encoding='utf-8-sig')
+# extract country code and name from CSV row for the United States
+dic_us = json.load(open("API_Requests/dic_us.json", "r"))
 # iterate over each country in the CSV and make API requests
 for index, row in df_countries.iterrows():
     # extract country code and name from CSV row
@@ -35,33 +37,55 @@ for index, row in df_countries.iterrows():
     country_name=row["Country or Area"]
     region_name = row["Region Name"]
     data = None
+    if country_code == "US":
+        for us_code, us_name in dic_us.items():
+            url = f"https://api.ebird.org/v2/data/obs/{us_code}/historic/{y}/{m}/{d}"
+            for attempt in range(3):
+                try:
+                    response = requests.get(url, headers=headers)
+                    if response.status_code ==200:
+                        data = response.json()
+                        break  
+                    # exit loop if request is successful
+                    elif response.status_code >= 500:
+                        print(f"Server error {response.status_code} for {us_name} ({us_code}), retrying...")
+                        time.sleep(5) # wait for 5 seconds before retrying
+                    else:
+                        print(f"Error {response.status_code} for {us_name} ({us_code}), not retrying.")
+                        break  # exit loop for client errors
+                except requests.exceptions.RequestException as e:
+                    print(f"Request failed for {us_name} ({us_code}): {e}")
+                    continue
+            if not data:
+                print(f"No data available for {us_name} ({us_code})")
+                continue
+        else:
     # construct API URL for the specific country
-    url = f"https://api.ebird.org/v2/data/obs/{country_code}/historic/{y}/{m}/{d}"
-    # make GET request to eBird API
-    for attempt in range(3):
-        try:
-            response = requests.get(url, headers=headers)
-            if response.status_code ==200:
-                data = response.json()
-                break  
-            # exit loop if request is successful
-            elif response.status_code >= 500:
-                print(f"Server error {response.status_code} for {country_name} ({country_code}), retrying...")
-                time.sleep(5) # wait for 5 seconds before retrying
-            else:
-                print(f"Error {response.status_code} for {country_name} ({country_code}), not retrying.")
-                break  # exit loop for client errors
-        except requests.exceptions.RequestException as e:
-            print(f"Request failed for {country_name} ({country_code}): {e}")
-            continue
+            url = f"https://api.ebird.org/v2/data/obs/{country_code}/historic/{y}/{m}/{d}"
+            # make GET request to eBird API
+            for attempt in range(3):
+                try:
+                    response = requests.get(url, headers=headers)
+                    if response.status_code ==200:
+                        data = response.json()
+                        break  
+                    # exit loop if request is successful
+                    elif response.status_code >= 500:
+                        print(f"Server error {response.status_code} for {country_name} ({country_code}), retrying...")
+                        time.sleep(5) # wait for 5 seconds before retrying
+                    else:
+                        print(f"Error {response.status_code} for {country_name} ({country_code}), not retrying.")
+                        break  # exit loop for client errors
+                except requests.exceptions.RequestException as e:
+                    print(f"Request failed for {country_name} ({country_code}): {e}")
+                    continue
 
-    if not data:
-           print(f"No data available for {country_name} ({country_code})")
-           continue
-
-
+            if not data:
+                print(f"No data available for {country_name} ({country_code})")
+                continue
 
 
+    # create DataFrame from API response and add country code and name columns
     df=pd.json_normalize(data)
     if df.empty:
         print(f"Empty dataframe for {country_name} ({country_code})")
