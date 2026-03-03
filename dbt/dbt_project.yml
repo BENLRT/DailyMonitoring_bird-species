@@ -41,5 +41,7 @@ models:
       +schema: staging
       +materialized: table
     mart:
-      daily:
+      one_week_data:
+        +schema: weekly
         +materialized: table
+
