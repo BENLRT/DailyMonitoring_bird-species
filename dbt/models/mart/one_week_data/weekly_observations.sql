@@ -18,6 +18,8 @@ WITH ebird_observations AS (
         , SUM(individual_count)
             OVER (PARTITION BY observation_date) AS total_birds_observed
     FROM {{ ref('intermediate_join_ebird_iucn') }}
+        , COUNT(DISTINCT sub_id)
+            OVER (PARTITION BY observation_date ) AS total_observer
     WHERE observation_date 
         BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 8 DAY) 
             AND DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY)
@@ -38,6 +40,7 @@ WITH ebird_observations AS (
         , time_of_day
         , SUM(individual_count) AS total_individuals
         , ROUND(SAFE_DIVIDE(SUM(individual_count),COUNT(DISTINCT sub_id)),2) individuals_per_checklist
+        , MAX(total_observer) AS total_observers
         , MAX(total_birds_observed) AS total_birds_observed
 
     FROM ebird_observations
