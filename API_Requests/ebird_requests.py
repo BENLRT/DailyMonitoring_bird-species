@@ -28,8 +28,9 @@ y, m, d = yesterday.year, yesterday.month, yesterday.day
 
 # read country codes from CSV file and make API requests for each country
 df_countries = pd.read_csv("API_Requests/countries.csv", delimiter=';',encoding='utf-8-sig')
-# extract country code and name from CSV row for the United States
+# extract country code and name from CSV row for the United States and Canada
 dic_us = json.load(open("API_Requests/dic_us.json", "r"))
+dic_ca = json.load(open("API_Requests/dic_ca.json", "r"))
 # columns to keep in the final DataFrame
 cols = ["countryCode","countryName","regionName","comName","sciName","obsDt","lat","lng","howMany","obsValid","obsReviewed","locationPrivate","subId"]
 all_data = []
@@ -41,34 +42,35 @@ for index, row in df_countries.iterrows():
     region_name = row["Region Name"]
     # construct API URL for the specific country
     # US is a special case as we want to get data for each state separately
-    if country_code == "US":
-        for us_code, us_name in dic_us.items():
-            data_us = None
-            url = f"https://api.ebird.org/v2/data/obs/{us_code}/historic/{y}/{m}/{d}"
+    if country_code == "US" or country_code == "CA":
+        dic = dic_us if country_code == "US" else dic_ca
+        for usca_code, usca_name in dic.items():
+            data_usca = None
+            url = f"https://api.ebird.org/v2/data/obs/{usca_code}/historic/{y}/{m}/{d}"
             for attempt in range(3):
                 try:
                     response = requests.get(url, headers=headers)
                     if response.status_code ==200:
-                        data_us = response.json()
+                        data_usca = response.json()
                         break  
                     # exit loop if request is successful
                     elif response.status_code >= 500:
-                        print(f"Server error {response.status_code} for {us_name} ({us_code}), retrying...")
+                        print(f"Server error {response.status_code} for {usca_name} ({usca_code}), retrying...")
                         time.sleep(5) # wait for 5 seconds before retrying
                     else:
-                        print(f"Error {response.status_code} for {us_name} ({us_code}), not retrying.")
+                        print(f"Error {response.status_code} for {usca_name} ({usca_code}), not retrying.")
                         break  # exit loop for client errors
                 except requests.exceptions.RequestException as e:
-                    print(f"Request failed for {us_name} ({us_code}): {e}")
+                    print(f"Request failed for {usca_name} ({usca_code}): {e}")
                     continue
-            if not data_us:
-                print(f"No data available for {us_name} ({us_code})")
+            if not data_usca:
+                print(f"No data available for {usca_name} ({usca_code})")
                 continue
-            for obs in data_us:
+            for obs in data_usca:
                 obs["countryCode"] = country_code
                 obs["countryName"] = country_name
                 obs["regionName"] = region_name
-            all_data.extend(data_us)
+            all_data.extend(data_usca)
             time.sleep(1) # To respect API rate limits
 
     else:
