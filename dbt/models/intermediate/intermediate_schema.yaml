@@ -182,3 +182,5 @@ models:
         description: "World Status"
       - name: iucn_regional_status
         description: "Regional Status"
+      - name: "is_threatened_species"
+        description: "Define if the species is threatened or not (IUCN= CR,EN,VU)"

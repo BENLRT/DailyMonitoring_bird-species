@@ -87,4 +87,8 @@ SELECT
     ,is_location_private
     ,IF(iucn_global_status IS NULL, "Missing data", iucn_global_status) AS iucn_global_status
     ,IF(iucn_regional_status IS NULL, "Missing data", iucn_regional_status) AS iucn_regional_status
+    ,CASE
+        WHEN iucn_global_status IN ("VU","EN","CR") THEN 1
+        ELSE 0
+    END AS is_threatened_species
 FROM joined
