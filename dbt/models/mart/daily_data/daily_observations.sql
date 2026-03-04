@@ -1,9 +1,10 @@
-WITH daily_kpis AS (
+WITH daily_obs AS (
     SELECT
-        observation_date,
+        observation_date
         ,COUNT(DISTINCT sub_id) AS total_observers
         ,SUM(individual_count) AS total_observations
-        ,COUNT(DISTINCT scientific_name) AS distinct_species
+        ,COUNT(DISTINCT scientific_name) AS total_distinct_species
+        ,ROUND(SAFE_DIVIDE(SUM(individual_count),COUNT(DISTINCT sub_id)),0) individuals_per_checklist
     FROM {{ ref('intermediate_join_ebird_iucn') }}
     WHERE observation_date 
         BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 8 DAY)
@@ -12,4 +13,4 @@ WITH daily_kpis AS (
 )
 
 SELECT *
-FROM daily_kpis
+FROM daily_obs

@@ -1,0 +1,54 @@
+version: 2
+
+models:
+# /mart/weekly_data/weekly_observations
+  - name: weekly_observations
+    description: "Weekly observations"
+    columns: 
+      -  name: country_code
+         description: "country code of the observation"
+      -  name: country_name
+         description: "country name where the bird was observed"
+      -  name: region_name
+         description: "region name where the bird was observed"
+      -  name: "`order`"
+         description: "order of the species"
+      -  name: family
+         description: "family of the species"
+      -  name: genus
+         description: "country code of the observation"
+      -  name: common_name
+         description: "genus of the species"
+      -  name: scientific_name
+         description: "scientific name of the species"
+      -  name: iucn_global_status
+         description: "red list world status of the species observed"
+      -  name: iucn_regional_status
+         description: "red list regional status of the species observed"
+      -  name: observation_date
+         description: "date of the observation"
+      -  name: time_of_day
+         description: "time when the bird has been observed. Morning, evening or afternoon"
+      -  name: total_individuals
+         description: "country code of the observation"
+      -  name: individuals_per_checklist
+         description: "number of birds observed by checklist : reported bird abundance "
+      -  name: total_birds_observed
+         description: "total number of birds observed at one date"
+
+# /mart/daily_data/daily_observations
+  - name: daily_observations
+    description: "Daily observations"
+    columns: 
+      -  name: observation_date
+         description: "date of the observation"
+      -  name: total_observations
+         description: "country code of the observation"
+      -  name: individuals_per_checklist
+         description: "number of birds observed by checklist. Effort. "
+      -  name: total_distinct_species
+         description: "total number of birds observed at one date"
+      -  name: total_observers
+         description: "total number of distinct observers"
+      -  name: individuals_per_checklist
+         description: "total number of individual birds observed per checklist : reported bird abundance" 
