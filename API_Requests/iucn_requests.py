@@ -26,10 +26,16 @@ while True:
         "page": page,
         "per_page": 100,
         }
-    response = requests.get(url, headers=headers, params=params)
-    if response.status_code != 200:
-        print(f"Error fetching data: {response.status_code}")
-        break
+    for attempt in range(3):  # Retry up to 3 times
+        response = requests.get(url, headers=headers, params=params)
+        if response.status_code == 200:
+            print(f"Data fetched successfully: {response.status_code}")
+            break
+        elif response.status_code == 429: # Too Many Requests
+            print("Rate limit exceeded. Retrying...")
+            time.sleep(5)  # Wait before retrying
+        else:
+            raise Exception(f"HTTP error {response.status_code}")
     data = response.json()
     assessments = data.get('assessments', [])
     if not assessments:
@@ -45,7 +51,7 @@ while True:
         }
         )
     page += 1
-    time.sleep(0.5)  # To respect API rate limits
+    time.sleep(2)  # To respect API rate limits
 
 df = pd.DataFrame(all_species)
 pandas_gbq.to_gbq(df, "raw_ebird_daily.raw_iucn", project_id="daily-ebird", if_exists="replace", credentials=credentials)
