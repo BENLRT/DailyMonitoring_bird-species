@@ -35,13 +35,15 @@ models:
   ebird_daily_observation:
     intermediate:
       +schema: intermediate
-      +materialized: table
+      +materialized: view
     # Applies to all files under models/example/
     staging:
       +schema: staging
       +materialized: table
     mart:
-      one_week_data:
-        +schema: weekly
+      weekly_data:
+        +schema: weekly_data
         +materialized: table
-
+      daily_data:
+        +schema: daily_data
+        +materialized: table
