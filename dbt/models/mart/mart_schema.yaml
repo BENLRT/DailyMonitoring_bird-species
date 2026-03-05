@@ -66,6 +66,14 @@ models:
   - name: daily_observations
     description: "Daily observations"
     columns: 
+      -  name: country_code
+         description: "country code of the observation"
+         tests:
+          - not_null
+      -  name: country_name
+         description: "country name where the bird was observed"
+         tests:
+          - not_null
       -  name: observation_date
          description: "date of the observation"
          tests:
