@@ -178,8 +178,14 @@ models:
         description: "Whether the observation location is private"
       - name: iucn_global_status
         description: "World Status"
+        tests:
+          - not_null
       - name: iucn_regional_status
         description: "Regional Status"
+        tests:
+          - not_null
       - name: "is_threatened_species"
         description: "Define if the species is threatened or not (IUCN = CR,EN,VU)"
+        tests:
+          - not_null
       

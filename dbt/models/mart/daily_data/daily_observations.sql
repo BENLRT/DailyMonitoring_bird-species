@@ -11,7 +11,7 @@ WITH daily_obs AS (
     WHERE observation_date 
         BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 8 DAY)
             AND DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY)
-    GROUP BY observation_date
+    GROUP BY observation_date, iucn_global_status
 )
 
 SELECT *
