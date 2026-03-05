@@ -1,9 +1,23 @@
 # Monitoring-bird-species_daily
-This project will allow us to save daily observation of bird species and to observe how many common or rare species are observed per day. 
+## Context
+eBird is a citizen science platform managed by the Cornell Lab of Ornithology. By an app, people can save what bird they have observed.
+The eBird database provides bird observation data collected by birdwatchers.
+
+## Objective
+Analyze daily bird observations and explore their relationship with the IUCN conservation status.
+
+## Key Questions
+- How many birds are observed ?
+- What proportion of observed species are threatened according to the IUCN Red List?
+- Which species are observed in the dataset?
+- What is the distribution of observed species by conservation status?
+- When are the birds being observed ?
 
 ## How to ? 
-The goal is to unify eBird data and UICN Data, so we can have the status of the species and the observation. 
-
+The goal is to unify eBird data and UICN Data : 
+- Collect observation data using the eBird API
+- Collect conservation status with the IUCN API
+- Enrich the dataset with IUCN Red List data
 
 ## Technologies 
 - Python :
@@ -19,10 +33,10 @@ The goal is to unify eBird data and UICN Data, so we can have the status of the 
     - Keep only relevant columns
 - Github : 
     - Launch pipeline to extract daily
-    - Store the python code
+    - Store the project code
 - Bigquery : Store the Data to use
 - DBT : Transform the data and create table for analysis
-- Looker Studio, Python : Visualisation of the data
+- Looker Studio : Visualisation of the data
 
 
 
