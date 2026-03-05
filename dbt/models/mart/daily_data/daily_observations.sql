@@ -1,6 +1,8 @@
 WITH daily_obs AS (
     SELECT
         observation_date
+        ,country_code
+        ,country_name
         ,iucn_global_status
         ,COUNT(DISTINCT sub_id) AS total_observers
         ,SUM(individual_count) AS total_observations
