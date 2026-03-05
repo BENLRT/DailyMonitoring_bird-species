@@ -50,6 +50,8 @@ models:
          description: "total number of distinct observers"
       -  name: individuals_per_checklist
          description: "total number of individual birds observed per checklist : reported bird abundance"
+      -  name: total_threatened_species_observed
+         description: "total number of threatened species observed"
       - name: "iucn_global_status"
         description: "Status of the observation"
 
