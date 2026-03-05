@@ -172,13 +172,14 @@ models:
 
       - name: is_validated
         description: "Whether the observation is validated by eBird"
-
       - name: is_reviewed
         description: "Whether the observation has been reviewed by a human"
-
       - name: is_location_private
         description: "Whether the observation location is private"
       - name: iucn_global_status
         description: "World Status"
       - name: iucn_regional_status
         description: "Regional Status"
+      - name: "is_threatened_species"
+        description: "Define if the species is threatened or not (IUCN = CR,EN,VU)"
+      
