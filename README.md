@@ -1,7 +1,7 @@
 # Monitoring-bird-species_daily
 ## Context
 eBird is a citizen science platform managed by the Cornell Lab of Ornithology. By an app, people can save what bird they have observed.
-This allow eBird to 
+The eBird database provides bird observation data collected by birdwatchers.
 
 ## Objective
 Analyze daily bird observations and explore their relationship with the IUCN conservation status.
