@@ -88,12 +88,17 @@ models:
           - not_null
       -  name: total_distinct_species
          description: "total number of birds observed at one date"
+
       -  name: total_observers
          description: "total number of distinct observers"
       -  name: individuals_per_checklist
          description: "total number of individual birds observed per checklist : reported bird abundance"
       -  name: total_threatened_species_observed
          description: "total number of threatened species observed"
+      -  name: "last_day_total_observations"
+         description: "total number of threatened species observed the previous day"
+      -  name: "last_day_total_individuals_per_checklist"
+         description: "total number of individual birds observed the previous day per checklist : reported bird abundance"
 
 
 
