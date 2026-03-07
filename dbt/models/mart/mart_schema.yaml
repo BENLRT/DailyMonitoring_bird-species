@@ -63,7 +63,7 @@ models:
          description: "total number of birds observed at one date"
 
 # /mart/daily_data/daily_observations
-  - name: daily_observations
+  - name: daily_metrics
     description: "Daily observations"
     columns: 
       -  name: country_code
@@ -101,7 +101,7 @@ models:
          description: "total number of individual birds observed the previous day per checklist : reported bird abundance"
 
 # /mart/daily_data/top_10_global_species.sql
-  - name: top_10_global_species
+  - name: daily_observations
     description: "Table of threatened species observed at one date. This table will be usefull to make a top 10 which can be filtered by countries"
     columns: 
       -  name: country_name
