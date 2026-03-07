@@ -63,7 +63,7 @@ models:
          description: "total number of birds observed at one date"
 
 # /mart/daily_data/daily_observations
-  - name: daily_observations
+  - name: daily_metrics
     description: "Daily observations"
     columns: 
       -  name: country_code
@@ -88,13 +88,41 @@ models:
           - not_null
       -  name: total_distinct_species
          description: "total number of birds observed at one date"
+
       -  name: total_observers
          description: "total number of distinct observers"
       -  name: individuals_per_checklist
          description: "total number of individual birds observed per checklist : reported bird abundance"
       -  name: total_threatened_species_observed
          description: "total number of threatened species observed"
+      -  name: "last_day_total_observations"
+         description: "total number of threatened species observed the previous day"
+      -  name: "last_day_total_individuals_per_checklist"
+         description: "total number of individual birds observed the previous day per checklist : reported bird abundance"
 
-
+# /mart/daily_data/top_10_global_species.sql
+  - name: daily_observations
+    description: "Table of threatened species observed at one date. This table will be usefull to make a top 10 which can be filtered by countries"
+    columns: 
+      -  name: country_name
+         description: "country name where the bird was observed"
+         tests:
+          - not_null
+      -  name: common_name
+         description: "common name of the species"
+         tests:
+          - not_null
+      -  name: scientific_name
+         description: "scientific name of the species"
+         tests:
+          - not_null
+      -  name: iucn_global_status
+         description: "red list world status of the species observed"
+         tests:
+          - not_null
+      -  name: total_observations
+         description: "Number of threatened species observed"
+         tests:
+          - not_null  
 
 
