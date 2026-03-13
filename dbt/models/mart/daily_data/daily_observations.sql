@@ -6,6 +6,7 @@ WITH daily_obs AS (
         ,common_name
         ,iucn_global_status
         ,SUM(individual_count) AS total_observations
+        ,ROUND(SAFE_DIVIDE(SUM(individual_count),COUNT(DISTINCT sub_id)),2) individuals_per_checklist
     FROM {{ ref('intermediate_join_ebird_iucn') }}
     --- Keep only observations from yesterday
     WHERE observation_date = DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY)
@@ -18,4 +19,3 @@ WITH daily_obs AS (
 
 SELECT *
 FROM daily_obs
-ORDER BY total_observations DESC

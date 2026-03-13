@@ -5,13 +5,13 @@ WITH daily_obs AS (
         ,country_code
         ,country_name
         ,iucn_global_status
-        ,COUNT(DISTINCT sub_id) AS total_observers
+        ,COUNT(DISTINCT sub_id) AS total_checklists
         ,SUM(individual_count) AS total_observations
         ,COUNT(DISTINCT scientific_name) AS total_distinct_species
         ,ROUND(SAFE_DIVIDE(SUM(individual_count),COUNT(DISTINCT sub_id)),0) individuals_per_checklist
         ,SUM(is_threatened_species) AS total_threatened_species_observed
     FROM {{ ref('intermediate_join_ebird_iucn') }}
-    --- Keep only the 2 last days
+    --- Keep only the 2 previous days
     WHERE observation_date 
         BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 2 DAY)
             AND DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY)
@@ -28,7 +28,7 @@ WITH daily_obs AS (
     ,country_code
     ,country_name
     ,iucn_global_status
-    ,total_observers
+    ,total_checklists
     ,total_observations
     ,total_distinct_species
     ,individuals_per_checklist

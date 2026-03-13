@@ -53,6 +53,10 @@ models:
          description: "time when the bird has been observed. Morning, evening or afternoon"
          tests:
           - not_null
+      -  name: total_checklists
+         description: "country code of the observation"
+         tests:
+          - not_null
       -  name: total_individuals
          description: "country code of the observation"
          tests:
@@ -89,8 +93,8 @@ models:
       -  name: total_distinct_species
          description: "total number of birds observed at one date"
 
-      -  name: total_observers
-         description: "total number of distinct observers"
+      -  name: total_checklists
+         description: "total number of distinct checklists"
       -  name: individuals_per_checklist
          description: "total number of individual birds observed per checklist : reported bird abundance"
       -  name: total_threatened_species_observed
@@ -122,6 +126,10 @@ models:
           - not_null
       -  name: total_observations
          description: "Number of threatened species observed"
+         tests:
+          - not_null  
+      -  name: individuals_per_checklist
+         description: "total number of individual birds observed per checklist : reported bird abundance"
          tests:
           - not_null  
 
