@@ -1,8 +1,7 @@
 
 WITH ebird_observations AS (
     SELECT 
-        sub_id
-        , country_code
+        country_code
         , country_name
         , region_name
         , `order`
