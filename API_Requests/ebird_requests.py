@@ -62,13 +62,13 @@ for index, row in df_countries.iterrows():
                 print(f"Request failed for {country_name} ({country_code}): {e}")
                 continue
         
-        if not data:
-            print(f"No data available for {country_name} ({country_code})")
-            continue
-        for obs in data:
-            obs["countryCode"] = country_code
-            obs["countryName"] = country_name
-            obs["regionName"] = region_name
+    if not data:
+        print(f"No data available for {country_name} ({country_code})")
+        continue
+    for obs in data:
+        obs["countryCode"] = country_code
+        obs["countryName"] = country_name
+        obs["regionName"] = region_name
     all_data.extend(data)
     time.sleep(1) # To respect API rate limits
 # Check if any data was collected before attempting to create DataFrame
