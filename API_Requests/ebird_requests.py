@@ -24,6 +24,9 @@ df_all=pd.DataFrame()
 
 # calculate yesterday's date
 yesterday = datetime.now(timezone.utc) - timedelta(days=1)
+# calculate date 90 days ago to delete old data from BigQuery before uploading new data
+ninety_days_ago = datetime.now(timezone.utc) - timedelta(days=90)
+
 y, m, d = yesterday.year, yesterday.month, yesterday.day
 
 # read country codes from CSV file and make API requests for each country
@@ -121,3 +124,8 @@ else:
         # delete duplicates before uploading to BigQuery in case of multiple runs on the same day
         df_all = df_all.drop_duplicates()
         pandas_gbq.to_gbq(df_all, "raw_ebird_daily.raw_ebird", project_id="daily-ebird", if_exists="append", credentials=credentials)
+
+# delete old data from BigQuery that is older than 90 days to keep the table size manageable 
+# As the query is executed everyday, we can delete data by deleting 90 days before today's date
+query = f"DELETE FROM `daily-ebird.raw_ebird_daily.raw_ebird` WHERE obsDt < '{ninety_days_ago.strftime('%Y-%m-%d')}'"
+pandas_gbq.query(query, project_id="daily-ebird", credentials=credentials)
